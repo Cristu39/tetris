@@ -30,13 +30,13 @@ var joc = {
         var num = Math.floor(Math.random() * 7); //del 0 al 6
         var forma = new Array();
         switch(num){
-            case 0: forma = [[0,1,0,0],[0,1,0,0],[0,1,0,0],[0,1,0,0]];break; //i
-            case 1: forma = [[0,1,0],[0,1,0],[1,1,0]];break; //j
-            case 2: forma = [[0,1,0],[0,1,0],[0,1,1]];break; //L
-            case 3: forma = [[1,1],[1,1]];break; //o
-            case 4: forma = [[0,1,1],[1,1,0]];break; //s
-            case 5: forma = [[1,1,1],[0,1,0]];break; //t
-            case 6: forma = [[1,1,1],[0,1,0][0,0,0]];break; //z
+            case 0: forma = [[[0,1,0,0],[0,1,0,0],[0,1,0,0],[0,1,0,0]], "blau"];break; //i
+            case 1: forma = [[[0,1,0],[0,1,0],[1,1,0]],["rosa"]];break; //j
+            case 2: forma = [[[0,1,0],[0,1,0],[0,1,1]],["taronja"]];break; //L
+            case 3: forma = [[[1,1],[1,1]],["lila"]];break; //o
+            case 4: forma = [[[0,1,1],[1,1,0]],["vermell"]];break; //s
+            case 5: forma = [[[1,1,1],[0,1,0]],["verd"]];break; //t
+            case 6: forma = [[[1,1,1],[0,1,0][0,0,0]],["groc"]];break; //z
         }
         return forma;
     },
