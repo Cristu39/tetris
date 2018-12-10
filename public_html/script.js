@@ -122,7 +122,6 @@ var joc = {
                 } 
                 
                 ctx.drawImage(img, j*16, i*16, 15, 15 );
-                console.log(img);
             }
         }
     },
