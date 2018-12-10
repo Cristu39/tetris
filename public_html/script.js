@@ -45,19 +45,17 @@ var joc = {
         }
         console.log(this.mapa);
     },
-    calcularSeguentPeca : function(){
-        var num = Math.floor(Math.random() * 7); //del 0 al 6
-        var forma = new Array();
-        switch(num){
-            case 0: forma = [[[0,"i",0,0],[0,"i",0,0],[0,"i",0,0],[0,"i",0,0]], "blau"];break; //i
-            case 1: forma = [[[0,"j",0],[0,"j",0],["j","j",0]],["rosa"]];break; //j
-            case 2: forma = [[[0,"L",0],[0,"L",0],[0,"L","L"]],["taronja"]];break; //L
-            case 3: forma = [[["o","o"],["o","o"]],["lila"]];break; //o
-            case 4: forma = [[[0,"s","s"],["s","s",0]],["vermell"]];break; //s
-            case 5: forma = [[["t","t","t"],[0,"t",0]],["verd"]];break; //t
-            case 6: forma = [[["z","z","z"],[0,"z",0][0,0,0]],["groc"]];break; //z
-        }
-        return forma;
+    calcularSeguentPeca : function(){        
+        var peces = [
+                 [[[0,0,0,0],[0,1,1,0],[0,1,1,0],[0,0,0,0]],"blau"],
+                 [[[0,1,0,0],[0,1,0,0],[0,1,0,0],[0,1,0,0]],"rosa"],
+                 [[[0,0,0,0],[0,1,1,0],[1,1,0,0],[0,0,0,0]],"taronja"],
+                 [[[0,0,0,0],[0,1,1,0],[0,0,1,1],[0,0,0,0]],"lila"],
+                 [[[0,1,0,0],[0,1,0,0],[0,1,1,0],[0,0,0,0]],"vermell"],
+                 [[[0,1,1,0],[0,1,0,0],[0,1,0,0],[0,0,0,0]],"verd"],
+                 [[[0,0,0,0],[1,1,1,0],[0,1,0,0],[0,0,0,0]],"groc"] ];
+           var numeroAleatori = Math.round(Math.random()*6);                      
+           return peces[numeroAleatori];
     },
     mouPeca : function(){
         window.addEventListener("keydown", this.dealWithKeyboard, false);
@@ -127,11 +125,25 @@ var joc = {
                 console.log(img);
             }
         }
+    },
+    Peça : function(forma, color, x, y)
+        { this.forma = forma;
+          this.color = color;
+          this.x = x;  
+          this.y = y;
+        },
+    mostraInfo : function (){
+        document.getElementById("nivell").innerHTML = "Nivell: " + this.nivell;
+        document.getElementById("puntuacio").innerHTML = "Puntuació: " + this.puntuacio;
+        document.getElementById("puntuacioMaxima").innerHTML = "Puntuació màxima: " + this.puntuacioMaxima;
     }
+          
 };
+
 
 window.onload = function(){
     joc.inicialitzaMapa();
+    joc.mostraInfo();
     joc.mouPeca();
     joc.mostraMapa();
 };
