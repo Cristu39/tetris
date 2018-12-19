@@ -33,7 +33,8 @@ var joc = {
             o: 0,
             s: 0,
             t: 0,
-            z: 0
+            z: 0,
+            total:0
         };
         this.nivell = 1;
     },
@@ -46,14 +47,26 @@ var joc = {
     },
     calcularSeguentPeca: function () {
         var peces = [
-            [[[0, 1, 1, 0], [0, 1, 1, 0], [0, 0, 0, 0], [0, 0, 0, 0]], "blau", 0, 0],
-            [[[0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0]], "rosa", 0, 0],
-            [[[0, 1, 1, 0], [1, 1, 0, 0], [0, 0, 0, 0], [0, 0, 0, 0]], "taronja", 0, 0],
-            [[[0, 1, 1, 0], [0, 0, 1, 1], [0, 0, 0, 0], [0, 0, 0, 0]], "lila", 0, 0],
-            [[[0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 1, 0], [0, 0, 0, 0]], "vermell", 0, 0],
-            [[[0, 1, 1, 0], [0, 1, 0, 0], [0, 1, 0, 0], [0, 0, 0, 0]], "verd", 0, 0],
-            [[[0, 0, 0, 0], [1, 1, 1, 0], [0, 1, 0, 0], [0, 0, 0, 0]], "groc", 0, 0]];
+            [[[0, 1, 1, 0], [0, 1, 1, 0], [0, 0, 0, 0]], "blau", 0, 3],
+            [[[0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 0, 0]], "rosa", 0, 3],
+            [[[0, 1, 1, 0], [1, 1, 0, 0]], "taronja", 0, 3],
+            [[[0, 1, 1, 0], [0, 0, 1, 1]], "lila", 0, 3],
+            [[[0, 1, 0, 0], [0, 1, 0, 0], [0, 1, 1, 0]], "vermell", 0, 3],
+            [[[0, 1, 1, 0], [0, 1, 0, 0], [0, 1, 0, 0]], "verd", 0, 3],
+            [[[0, 0, 0, 0], [1, 1, 1, 0], [0, 1, 0, 0]], "groc", 0, 3]];
         var numeroAleatori = Math.round(Math.random() * 6);
+        this.comptador.total = parseInt(this.comptador.total);
+        this.comptador.total++;
+        switch(numeroAleatori){
+            case 0: this.comptador.i++;break;
+            case 1: this.comptador.j++;break;
+            case 2: this.comptador.l++;break;
+            case 3: this.comptador.o++;break;
+            case 4: this.comptador.s++;break;
+            case 5: this.comptador.t++;break;
+            case 6: this.comptador.z++;break;
+        }
+        console.log(this.comptador.total);
         return peces[numeroAleatori];
     },
     mouPeca: function () {
@@ -131,6 +144,13 @@ var joc = {
         document.getElementById("nivell").innerHTML = "Nivell: " + this.nivell;
         document.getElementById("puntuacio").innerHTML = "Puntuació: " + this.puntuacio;
         document.getElementById("puntuacioMaxima").innerHTML = "Puntuació màxima: " + this.puntuacioMaxima;
+    },
+    getPuntuacio: function(){
+        if (this.comptador.total > 9) {
+            this.comptador.total = 0;
+            this.nivell++;
+            console.log(this.nivell);
+        }
     }
 };
 
@@ -160,6 +180,7 @@ Peca.prototype.pintaPeca = function(){
     
     for (var i = 0; i < this.forma.length; i++) {
         for (var j = 0; j < this.forma[i].length; j++) {
+            
             if ((this.forma[i][j] === 1)) {
                 switch(this.color){
                     case "blau": joc.mapa[i + horitzontal][j + vertical] = "i";break;
@@ -170,32 +191,42 @@ Peca.prototype.pintaPeca = function(){
                     case "verd": joc.mapa[i + horitzontal][j + vertical] = "t";break;
                     case "groc": joc.mapa[i + horitzontal][j + vertical] = "z";break;
                 }
+            }else{
+                joc.mapa[i + horitzontal][j + vertical] = 0;
             }
         }
     }
 };
 
 Peca.prototype.baixaPeca = function (){
-    var horitzontal = this.x;
-    var vertical = this.y;
-    horitzontal ++;
-    vertical++;
-    console.log(vertical);
+    if ((this.x + 2) < 24) {
+        this.x ++;
+        return true;
+    }
+    else{
+        return false;
+    }
 };
+
 window.onload = function () {
     joc.inicialitzaMapa();
     joc.mostraInfo();
     var pa = joc.calcularSeguentPeca();
     var p = new Peca(pa[0], pa[1], pa[2], pa[3]);
-    console.log(p);
     
     
     setInterval(function(){
         joc.mostraInfo();
+        joc.inicialitzaMapa();
         p.pintaPeca();
         joc.mostraMapa();
-        p.baixaPeca();
-    }, 1000);
+        joc.getPuntuacio();
+        if (!p.baixaPeca()) {
+            pa = joc.calcularSeguentPeca();
+            p = new Peca(pa[0], pa[1], pa[2], pa[3]);
+        }
+        
+    }, 100);
     
     
 };
